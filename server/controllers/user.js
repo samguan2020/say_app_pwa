@@ -2,7 +2,6 @@ import bcrypt from "bcryptjs";
 import jwt from "jsonwebtoken";
 
 import UserModal from "../models/user.js";
-
 const secret = 'test';
 
 export const signin = async (req, res) => {
@@ -73,14 +72,3 @@ export const verify = async (req, res) => {
   }
 };
 
-export const getUsers = async (req, res) => {
-  //return all user profiles
-  try {
-    const users = await UserModal.find();
-
-    res.status(200).json(users);
-  }
-  catch (error) {
-    res.status(404).json({ message: error.message });
-  }
-};

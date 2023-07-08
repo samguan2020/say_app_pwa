@@ -7,12 +7,15 @@ import ChipInput from 'material-ui-chip-input';
 import { getPostsBySearch } from '../../actions/posts';
 import Posts from '../Posts/Posts';
 import Form from '../Form/Form';
+import Messages from '../Form/Messages';
 import Pagination from '../Pagination';
 import useStyles from './styles';
-
+import DirectMessageForm from '../Form/DirectMessageForm';
+import WebSocket from 'ws';
 function useQuery() {
   return new URLSearchParams(useLocation().search);
 }
+
 const Home = () => {
   const classes = useStyles();
   const query = useQuery();
@@ -27,7 +30,7 @@ const Home = () => {
   const history = useHistory();
 
   const searchPost = () => {
-    if (search.trim() || tags) {
+    if (search.trim() || tags.length > 0) {
       dispatch(getPostsBySearch({ search, tags: tags.join(',') }));
       history.push(`/posts/search?searchQuery=${search || 'none'}&tags=${tags.join(',')}`);
     } else {
@@ -49,12 +52,20 @@ const Home = () => {
     <Grow in>
       <Container maxWidth="xl">
         <Grid container justify="space-between" alignItems="stretch" spacing={3} className={classes.gridContainer}>
-          <Grid item xs={12} sm={6} md={9}>
+          <Grid item xs={12} sm={7} md={9}>
             <Posts setCurrentId={setCurrentId} />
           </Grid>
-          <Grid item xs={12} sm={6} md={3}>
+          <Grid item xs={12} sm={5} md={3}>
             <AppBar className={classes.appBarSearch} position="static" color="inherit">
-              <TextField onKeyDown={handleKeyPress} name="search" variant="outlined" label="Search Connect" fullWidth value={search} onChange={(e) => setSearch(e.target.value)} />
+              <TextField
+                onKeyDown={handleKeyPress}
+                name="search"
+                variant="outlined"
+                label="Search Connect"
+                fullWidth
+                value={search}
+                onChange={(e) => setSearch(e.target.value)}
+              />
               <ChipInput
                 style={{ margin: '10px 0' }}
                 value={tags}
@@ -63,14 +74,19 @@ const Home = () => {
                 label="Search Tags"
                 variant="outlined"
               />
-              <Button onClick={searchPost} className={classes.searchButton} variant="contained" color="primary">Search</Button>
+              <Button onClick={searchPost} className={classes.searchButton} variant="contained" color="primary">
+                Search
+              </Button>
             </AppBar>
             <Form currentId={currentId} setCurrentId={setCurrentId} />
-            {(!searchQuery && !tags.length) && (
+            {/* Messages Appbar */}
+            <Messages />
+            {(!searchQuery && tags.length === 0) && (
               <Paper className={classes.pagination} elevation={6}>
                 <Pagination page={page} />
               </Paper>
             )}
+            <DirectMessageForm />
           </Grid>
         </Grid>
       </Container>

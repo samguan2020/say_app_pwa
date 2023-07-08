@@ -22,4 +22,9 @@ export default makeStyles((theme) => ({
   buttonSubmit: {
     marginBottom: 10,
   },
+  messagesContainer: {
+    maxHeight: '300px', // Set the desired height for the scrollable container
+    overflowY: 'auto',
+    padding: theme.spacing(1),
+  }
 }));

@@ -4,7 +4,6 @@ import { useDispatch, useSelector } from 'react-redux';
 import FileBase from 'react-file-base64';
 import { useHistory } from 'react-router-dom';
 import ChipInput from 'material-ui-chip-input';
-
 import { createPost, updatePost } from '../../actions/posts';
 import useStyles from './styles';
 
@@ -56,6 +55,7 @@ const Form = ({ currentId, setCurrentId }) => {
     setPostData({ ...postData, tags: postData.tags.filter((tag) => tag !== chipToDelete) });
   };
 
+
   return (
     <Paper className={classes.paper} elevation={6}>
       <form autoComplete="off" noValidate className={`${classes.root} ${classes.form}`} onSubmit={handleSubmit}>
@@ -77,6 +77,7 @@ const Form = ({ currentId, setCurrentId }) => {
         <Button className={classes.buttonSubmit} variant="contained" color="primary" size="large" type="submit" fullWidth>Submit</Button>
         <Button variant="contained" color="secondary" size="small" onClick={clear} fullWidth>Clear</Button>
       </form>
+
     </Paper>
   );
 };
